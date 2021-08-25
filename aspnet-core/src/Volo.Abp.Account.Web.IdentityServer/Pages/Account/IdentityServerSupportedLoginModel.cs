@@ -30,7 +30,7 @@ namespace Volo.Abp.Account.Web.Pages.Account
         protected IClientStore ClientStore { get; }
         protected IEventService IdentityServerEvents { get; }
         protected IConfiguration Configuration { get; private set; }
-        private readonly ReCaptcha Captcha;
+        private readonly ReCaptchaModule Captcha;
 
         public IdentityServerSupportedLoginModel(
             IAuthenticationSchemeProvider schemeProvider,
@@ -39,7 +39,7 @@ namespace Volo.Abp.Account.Web.Pages.Account
             IClientStore clientStore,
             IEventService identityServerEvents,
             IOptions<IdentityOptions> identityOptions, 
-            ReCaptcha captcha, IConfiguration configuration)
+            ReCaptchaModule captcha, IConfiguration configuration)
             :base(
                 schemeProvider,
                 accountOptions,

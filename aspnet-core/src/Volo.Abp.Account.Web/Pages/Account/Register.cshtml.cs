@@ -34,9 +34,9 @@ namespace Volo.Abp.Account.Web.Pages.Account
         [BindProperty(SupportsGet = true)]
         public string ExternalLoginAuthSchema { get; set; }
         protected IConfiguration Configuration { get; private set; }
-        private readonly ReCaptcha Captcha;
+        private readonly ReCaptchaModule Captcha;
         public RegisterModel(IAccountAppService accountAppService,
-            ReCaptcha captcha, IConfiguration configuration)
+            ReCaptchaModule captcha, IConfiguration configuration)
         {
             AccountAppService = accountAppService;
             Captcha = captcha;
@@ -85,7 +85,6 @@ namespace Volo.Abp.Account.Web.Pages.Account
                     return Page();
 
                 var captcha = Request.Form["g-recaptcha-response"].ToString();
-
                 if (!await Captcha.IsValid(captcha, Configuration["reCAPTCHA:SecretKey"]))
                     return Page();
 

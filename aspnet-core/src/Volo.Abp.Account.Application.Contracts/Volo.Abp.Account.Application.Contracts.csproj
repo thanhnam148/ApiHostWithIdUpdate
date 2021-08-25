@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Volo\Abp\Account\ReCaptcha.cs" />
+    <Compile Remove="Volo\Abp\Account\Settings\CaptchaSettings.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="4.4.0" />
   </ItemGroup>
 
