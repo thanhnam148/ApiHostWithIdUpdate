@@ -109,13 +109,19 @@ namespace Volo.Abp.Account.Web.Pages.Account
 
         public override async Task<IActionResult> OnPostAsync(string action)
         {
-            if (!Request.Form.ContainsKey("g-recaptcha-response")) 
+            if (!Request.Form.ContainsKey("g-recaptcha-response"))
+            {
+                Alerts.Danger("Invalid captcha!");
                 return Page();
+            }
 
             var captcha = Request.Form["g-recaptcha-response"].ToString();
 
-            if (!await Captcha.IsValid(captcha, Configuration["reCAPTCHA:SecretKey"])) 
+            if (!await Captcha.IsValid(captcha, Configuration["reCAPTCHA:SecretKey"]))
+            {
+                Alerts.Danger("Invalid captcha!");
                 return Page();
+            } 
 
             var context = await Interaction.GetAuthorizationContextAsync(ReturnUrl);
             if (action == "Cancel")
@@ -188,9 +194,15 @@ namespace Volo.Abp.Account.Web.Pages.Account
                        await UserManager.FindByEmailAsync(LoginInput.UserNameOrEmailAddress);
 
             Debug.Assert(user != null, nameof(user) + " != null");
-            await IdentityServerEvents.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName)); //TODO: Use user's name once implemented
 
-            return RedirectSafely(ReturnUrl, ReturnUrlHash);
+            await IdentityServerEvents.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName)); //TODO: Use user's name once implemented
+            if (user.TwoFactorEnabled)
+            {
+                await UserManager.SetTwoFactorEnabledAsync(user, true);
+                return Redirect("/Account/TwoStep");
+            }
+            return Redirect("/Account/TwoFactorEnabled");
+            //return RedirectSafely(ReturnUrl, ReturnUrlHash);
         }
 
         public override async Task<IActionResult> OnPostExternalLogin(string provider)

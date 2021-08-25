@@ -2,18 +2,18 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.Account.Localization
 @using Microsoft.Extensions.Configuration
-@model Volo.Abp.Account.Web.Pages.Account._2faAuthenticationModel
+@model Volo.Abp.Account.Web.Pages.Account.TwoFactorEnabledModel
 @inject IHtmlLocalizer<AccountResource> L
 @inject IConfiguration configuration
 
-<div class="card mt-3 shadow-sm rounded">
+<div class="card mt-3 shadow-sm rounded" style="min-width: 500px;">
     <div class="card-body p-5">
         <h4>Enable two-factor authentication</h4>
         <form method="post" class="mt-4">
             <div class="form-group">
-                <img src="@ViewBag.BarcodeImageUrl" /><br />
-                Setup code: @ViewBag.SetupCode<br />
-                Input security code: <input name="inputCode" /><br />
+                <img src="@Model.CurrentUser.BarcodeImageUrl" /><br />
+                Setup code: @Model.CurrentUser.SetupCode<br />
+                Input security code: <abp-input asp-for="@Model.CurrentUser.InputCode" /><br />
             </div>
             <abp-button button-type="Primary" type="submit" class="btn-lg btn-block mt-4">Send</abp-button>
         </form>

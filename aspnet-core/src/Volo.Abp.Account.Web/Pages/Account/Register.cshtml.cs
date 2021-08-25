@@ -82,11 +82,18 @@ namespace Volo.Abp.Account.Web.Pages.Account
             try
             {
                 if (!Request.Form.ContainsKey("g-recaptcha-response"))
+                {
+                    Alerts.Danger("Invalid captcha!");
                     return Page();
+                }
 
                 var captcha = Request.Form["g-recaptcha-response"].ToString();
+
                 if (!await Captcha.IsValid(captcha, Configuration["reCAPTCHA:SecretKey"]))
+                {
+                    Alerts.Danger("Invalid captcha!");
                     return Page();
+                }
 
                 await CheckSelfRegistrationAsync();
 

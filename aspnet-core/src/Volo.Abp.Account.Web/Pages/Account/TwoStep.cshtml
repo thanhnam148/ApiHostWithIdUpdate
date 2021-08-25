@@ -1,0 +1,14 @@
+﻿@page
+@model Volo.Abp.Account.Web.Pages.Account.TwoStepModel
+<div class="card mt-3 shadow-sm rounded" style="min-width: 500px;">
+    <div class="card-body p-5">
+        <h4>Authorize</h4>
+        <form method="post" class="mt-4">
+            <div class="form-group">
+                <abp-input asp-for="@Model.CurrentUser.InputCode" /><br />
+            </div>
+            <abp-button button-type="Primary" type="submit" class="btn-lg btn-block mt-4">Submit</abp-button>
+        </form>
+    </div>
+</div>
+
